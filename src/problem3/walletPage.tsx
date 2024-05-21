@@ -14,7 +14,7 @@ interface FormattedWalletBalance {
 //delete this interface because it is not used
 interface Props extends BoxProps {
     classes: {
-        row: string;
+        row: string; //add classes prop that we use at the render
     };
     children?: React.ReactNode; //because this is the optional prop so we need to add the ? mark
 }
@@ -52,6 +52,7 @@ interface Props extends BoxProps {
         }).sort((lhs: WalletBalance, rhs: WalletBalance) => {
             const leftPriority = getPriority(lhs.currency); //change the lhs.blockchain to lhs.currency
             const rightPriority = getPriority(rhs.currency); //change the rhs.blockchain to rhs.currency
+            
             if (leftPriority > rightPriority) {
                 return -1;
             } else if (rightPriority > leftPriority) {
@@ -62,6 +63,7 @@ interface Props extends BoxProps {
     }, [balances]); //delete the prices because it is not used in the useMemo
 
     const formattedBalances: FormattedWalletBalance[] = sortedBalances.map((balance: WalletBalance) => { //add the type of this formattedBalances to array of FormattedWalletBalance
+        
         return {
             ...balance,
             formatted: balance.amount.toFixed()
@@ -70,6 +72,7 @@ interface Props extends BoxProps {
 
     const rows = formattedBalances.map((balance: FormattedWalletBalance, index: number) => {
         const usdValue = prices[balance.currency] * balance.amount;
+
         return (
             <WalletRow
                 className={classes.row}
